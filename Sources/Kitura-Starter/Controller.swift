@@ -108,7 +108,7 @@ public class Controller {
   }
   func bubbleSort() {
     var nums:[Int] = []
-      for _ in 1...200000{//100000=11s
+      for _ in 1...100000{//100000=11s
 
         nums.append(Int(randomInt()))
       }
@@ -142,7 +142,8 @@ public class Controller {
     bubbleSort()   
     Log.info("finish sort " + uuid)
     let endTime = Date().timeIntervalSince1970 * 1000
-    Log.info("request really response time is " + (endTime - startTime)/1000)
+    let responseTime = (endTime - startTime)/1000
+    Log.info("request really response time is \(responseTime)"  )
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
     try response.status(.OK).send(String(arrayList.count)).end()
   }
