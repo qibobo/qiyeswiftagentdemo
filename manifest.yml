@@ -1,0 +1,9 @@
+applications:
+- path: .
+  memory: 256M
+  instances: 1
+  domain: stage1.eu-gb.mybluemix.net
+  name: qiyeswiftagentnob
+  host: qiyeswiftagentnob
+  disk_quota: 1024M
+  command: Kitura-Starter
