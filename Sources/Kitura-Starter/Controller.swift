@@ -60,7 +60,8 @@ public class Controller {
     // Basic POST request
     router.post("/hello", handler: postHello)
 
-    router.get("/add", handler: add)
+    router.get("/addSynchronize", handler: addSynchronize)
+    router.get("/addConcurrent", handler: addConcurrent)
     router.get("/justAdd", handler: justAdd)
 
     router.get("/remove", handler: remove)
@@ -130,7 +131,7 @@ public class Controller {
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
     try response.status(.OK).send(String(arrayList.count)).end()
   }
-  public func add(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+  public func addSynchronize(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
     // let param = request.parameters["count"]
     // let count = Int(param)
@@ -138,6 +139,23 @@ public class Controller {
     let uuid = UUID().uuidString
     Log.info("add to array " + uuid)
     addBlockToArray(block:str,count:100);
+    Log.info("begin sort " + uuid)
+    bubbleSort()   
+    Log.info("finish sort " + uuid)
+    let endTime = Date().timeIntervalSince1970 * 1000
+    let responseTime = (endTime - startTime)/1000
+    Log.info("request really response time is \(responseTime)"  )
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    try response.status(.OK).send(String(arrayList.count)).end()
+  }
+  public func addConcurrent(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+    Log.debug("GET - /add route handler...")
+    // let param = request.parameters["count"]
+    // let count = Int(param)
+    let startTime = Date().timeIntervalSince1970 * 1000
+    let uuid = UUID().uuidString
+    Log.info("add to array " + uuid)
+    // addBlockToArray(block:str,count:100);
     Log.info("begin sort " + uuid)
     bubbleSort()   
     Log.info("finish sort " + uuid)
