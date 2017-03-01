@@ -56,6 +56,7 @@ public class Controller {
 
     // Basic GET request
     router.get("/hello", handler: getHello)
+    router.get("/justSleep", handler: justSleep)
 
     // Basic POST request
     router.post("/hello", handler: postHello)
@@ -122,6 +123,12 @@ public class Controller {
             }
         }
     }
+  }
+  public func justSleep(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
+    Log.debug("GET - /add route handler...")
+    sleep(30)
+    response.headers["Content-Type"] = "text/plain; charset=utf-8"
+    try response.status(.OK).send(String(arrayList.count)).end()
   }
   public func justAdd(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
