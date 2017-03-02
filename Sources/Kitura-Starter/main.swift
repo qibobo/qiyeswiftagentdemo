@@ -1,5 +1,5 @@
 /**
-* Copyright IBM Corporation 2016
+* Copyright IBM Corporation 2016,2017
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -19,12 +19,11 @@ import Foundation
 import Kitura
 import LoggerAPI
 import HeliumLogger
-import CloudFoundryEnv
 import CloudFoundryDeploymentTracker
 
 do {
   // HeliumLogger disables all buffering on stdout
-  HeliumLogger.use(LoggerMessageType.entry)
+  HeliumLogger.use(LoggerMessageType.info)
   let controller = try Controller()
   Log.info("Server will be started on '\(controller.url)'.")
   CloudFoundryDeploymentTracker(repositoryURL: "https://github.com/IBM-Bluemix/Kitura-Starter.git", codeVersion: nil).track()
