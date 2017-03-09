@@ -2,7 +2,7 @@ applications:
 - path: .
   memory: 256M
   instances: 1
-  domain: stage1.mybluemix.net
+  domain: mybluemix.net
   name: qiyeswift
   host: qiyeswift
   buildpack: swift_buildpack
