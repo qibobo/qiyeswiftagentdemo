@@ -55,6 +55,10 @@ public class Controller {
     _ = AutoScalar(swiftMetricsInstance: sm)
     monitor = sm.monitor()
 
+    monitor.on({ (http: HTTPData) in
+        Log.info("SwiftMetrics HTTP duration: \(http.duration)")
+    })
+
     // All web apps need a Router instance to define routes
     router = Router()
 
