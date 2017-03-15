@@ -52,7 +52,7 @@ public class Controller {
 
     sm = try SwiftMetrics()
     _ = SwiftMetricsKitura(swiftMetricsInstance: sm)
-    _ = AutoScalar(swiftMetricsInstance: sm)
+    _ = SwiftMetricsBluemix(swiftMetricsInstance: sm)
     monitor = sm.monitor()
 
     monitor.on({ (http: HTTPData) in
