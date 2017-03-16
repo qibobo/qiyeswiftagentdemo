@@ -118,9 +118,10 @@ public class Controller {
         return Int(arc4random_uniform(UInt32(1000)))
     #endif
   }
-  func bubbleSort() {
+  func bubbleSort(sortSize:Int) {
+    // Log.info("sortSize\(sortSize)")
     var nums:[Int] = []
-      for _ in 1...100000{//100000=11s
+      for _ in 1...sortSize{//100000=11s
 
         nums.append(Int(randomInt()))
       }
@@ -134,61 +135,90 @@ public class Controller {
         }
     }
   }
+
+  public func getAddSortCountFromParameter(request: RouterRequest) -> (Int, Int){
+    var paramCount = request.queryParameters["count"]
+    if (paramCount == nil){
+      paramCount = "100"
+    }
+    let count  = Int(paramCount!)
+
+    var paramSortSize = request.queryParameters["sortSize"]
+    // Log.info("sortSizeParameter:\(paramSortSize)")
+    if (paramSortSize == nil){
+      paramSortSize = "100000"
+    }
+    let sortSize  = Int(paramSortSize!)
+
+    return (count!,sortSize!)
+  }
+  public func getSleepTimeFromParameter(request: RouterRequest) -> (Int){
+    var paramSleep = request.queryParameters["sleepTime"]
+    if (paramSleep == nil){
+      paramSleep = "30"
+    }
+    let sleepTime  = Int(paramSleep!)
+
+
+    return sleepTime!
+  }
+
   public func justSleep(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
-    sleep(30)
+    
+    let sleepTime = getSleepTimeFromParameter(request:request)
+    sleep(UInt32(sleepTime))
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
-    try response.status(.OK).send(String(arrayList.count)).end()
+    let uuid = UUID().uuidString
+    try response.status(.OK).send("arrayCount:\(arrayList.count)  ,uuid:\(uuid)").end()
   }
   public func justAdd(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
-    // let param = request.parameters["count"]
-    // let count = Int(param)
-    addBlockToArray(block:str,count:100);
+    let (count,_) = getAddSortCountFromParameter(request:request)
+    addBlockToArray(block:str,count:count);
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
-    try response.status(.OK).send(String(arrayList.count)).end()
+    let uuid = UUID().uuidString
+    try response.status(.OK).send("arrayCount:\(arrayList.count)  ,uuid:\(uuid)").end()
   }
   public func addSynchronize(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
-    // let param = request.parameters["count"]
-    // let count = Int(param)
+    let (count,sortSize) = getAddSortCountFromParameter(request:request)
+
     let startTime = Date().timeIntervalSince1970 * 1000
     let uuid = UUID().uuidString
-    Log.info("add to array " + uuid)
-    addBlockToArray(block:str,count:100);
-    Log.info("begin sort " + uuid)
-    bubbleSort()   
-    Log.info("finish sort " + uuid)
+    // Log.info("add to array " + uuid)
+    addBlockToArray(block:str,count:count);
+    // Log.info("begin sort " + uuid)
+    bubbleSort(sortSize:sortSize)   
+    // Log.info("finish sort " + uuid)
     let endTime = Date().timeIntervalSince1970 * 1000
-    let responseTime = (endTime - startTime)/1000
-    Log.info("request really response time is \(responseTime)"  )
+    let responseTime = (endTime - startTime)
+    Log.info("request execution time is \(responseTime)"  )
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
-    try response.status(.OK).send(String(arrayList.count)).end()
+    try response.status(.OK).send("arrayCount:\(arrayList.count)  ,uuid:\(uuid)").end()
   }
   public func addConcurrent(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /add route handler...")
-    // let param = request.parameters["count"]
-    // let count = Int(param)
+    let (_,sortSize) = getAddSortCountFromParameter(request:request)
     let startTime = Date().timeIntervalSince1970 * 1000
     let uuid = UUID().uuidString
-    Log.info("add to array " + uuid)
+    // Log.info("add to array " + uuid)
     // addBlockToArray(block:str,count:100);
-    Log.info("begin sort " + uuid)
-    bubbleSort()   
-    Log.info("finish sort " + uuid)
+    // Log.info("begin sort " + uuid)
+    bubbleSort(sortSize:sortSize)   
+    // Log.info("finish sort " + uuid)
     let endTime = Date().timeIntervalSince1970 * 1000
-    let responseTime = (endTime - startTime)/1000
-    Log.info("request really response time is \(responseTime)"  )
+    let responseTime = (endTime - startTime)
+    Log.info("request execution time is \(responseTime)"  )
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
-    try response.status(.OK).send(String(arrayList.count)).end()
+    try response.status(.OK).send("arrayCount:\(arrayList.count)  ,uuid:\(uuid)").end()
   }
   public func remove(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /remove route handler...")
-    // let param = request.parameters["count"]
-    // let count = Int(param)
     removeBlockFromArray(count:100)
     response.headers["Content-Type"] = "text/plain; charset=utf-8"
-    try response.status(.OK).send(String(arrayList.count)).end()
+    let uuid = UUID().uuidString
+    try response.status(.OK).send("arrayCount:\(arrayList.count)  ,uuid:\(uuid)").end()
   }
   public func destroy(request: RouterRequest, response: RouterResponse, next: @escaping () -> Void) throws {
     Log.debug("GET - /remove route handler...")

@@ -5,7 +5,6 @@ applications:
   domain: stage1.mybluemix.net
   name: qiyeswift
   host: qiyeswift
-  buildpack: swift_buildpack
   disk_quota: 1024M
   command: swiftdemo
   
