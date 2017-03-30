@@ -22,7 +22,7 @@ let package = Package(
       Target(name: "swiftdemo", dependencies: [])
     ],
     dependencies: [
-      .Package(url: "https://github.com/RuntimeTools/SwiftMetrics.git" , majorVersion: 0),
-      .Package(url: "https://github.com/IBM-Swift/HeliumLogger.git"  , majorVersion: 1)
+      .Package(url: "https://github.com/RuntimeTools/SwiftMetrics.git" , majorVersion: 1)
+      
     ],
     exclude: ["Makefile", "Package-Builder"]) 
