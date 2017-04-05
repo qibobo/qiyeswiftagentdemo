@@ -17,12 +17,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "swiftdemo",
+    name: "Your-App",
     targets: [
-      Target(name: "swiftdemo", dependencies: [])
+      Target(name: "Your-App", dependencies: [])
     ],
     dependencies: [
       .Package(url: "https://github.com/RuntimeTools/SwiftMetrics.git" , majorVersion: 1)
       
-    ],
-    exclude: ["Makefile", "Package-Builder"]) 
+    ]) 
